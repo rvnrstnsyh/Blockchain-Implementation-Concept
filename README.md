@@ -1,4 +1,4 @@
-<a href="https://www.blockchain.com"><img alt="Blockchain" src="https://i.postimg.cc/T2zRy1HK/kisspng-blockchain-ethereum-cryptocurrency-cryptography-bu-virtual-private-server-5b1e4778249ec0-162.png"></a>
+<a href="https://www.blockchain.com"><img alt="Blockchain" src="https://i.postimg.cc/W12crkm1/pngkit-technology-png-344121.png"></a>
 
 A blockchain, or block chain as it was originally spelled, is an ever-expanding record, called blocks, that are linked and secured using cryptographic techniques. Each block typically contains a cryptographic hash of the previous block, a timestamp, and transaction data. [Read more](https://id.wikipedia.org/wiki/Rantai_blok)
 
