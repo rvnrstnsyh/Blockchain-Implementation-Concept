@@ -6,7 +6,7 @@ from sys import platform
 
 '''
 |--------------------------------------------------------------------------
-| Blockchain Concept Copyright © 2021 rvnrstnsyh All Rights Reserved
+| Blockchain Concept Copyright © 2022 rvnrstnsyh All Rights Reserved
 |--------------------------------------------------------------------------
 |
 | Author    : rvnrstnsyh
@@ -15,13 +15,14 @@ from sys import platform
 |
 '''
 
+file = open('scripts/_genesis.json')
+genesis = json.load(file)
+file.close()
+
 
 def arguments():
-    file = open('_genesis.json')
-    genesis = json.load(file)
-    file.close()
-
     parser = argparse.ArgumentParser()
+
     parser.add_argument(
         "-host", "--hostname", dest="hostname", default=genesis['config']['hostname'], help="Server name"
     )
@@ -36,6 +37,7 @@ def arguments():
 
 
 def start_genesis(hostname, port):
+    arg = arguments()
     for i in range(4):
         if platform == "linux" or platform == "linux2":
             # linux
@@ -44,7 +46,13 @@ def start_genesis(hostname, port):
             # OS X or Windows
             sp.call('cls', shell=True)
 
-        print("Reduce the difficulty if the genesis block creation or mining process takes too long,")
+        print(
+            "Reduce the difficulty if the genesis block creation or mining process takes too long."
+            f"\nhostname: {arg.hostname if arg.hostname else genesis['config']['hostname']}",
+            f"\nport: {arg.port if arg.port else genesis['config']['port']}",
+            f"\nnonce: {arg.difficulty if arg.difficulty else genesis['difficulty']}\n---",
+        )
+
         if 4-i > 1:
             print(
                 f'on http://{hostname}:{port} regenerates genesis block in {3-i}s')

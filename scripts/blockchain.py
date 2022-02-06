@@ -5,7 +5,7 @@ import json
 
 '''
 |--------------------------------------------------------------------------
-| Blockchain Concept Copyright © 2021 rvnrstnsyh All Rights Reserved
+| Blockchain Concept Copyright © 2022 rvnrstnsyh All Rights Reserved
 |--------------------------------------------------------------------------
 |
 | Author    : rvnrstnsyh
@@ -17,7 +17,7 @@ args = arguments()
 
 
 class BlockchainConcept(object):
-    file = open('_genesis.json')
+    file = open('scripts/_genesis.json')
     GENESIS = json.load(file)
     file.close()
 
@@ -33,9 +33,11 @@ class BlockchainConcept(object):
             "data": {
                 "signature": [{
                     "_type": "GENESIS_BLOCK",
-                    "author": "rvnrstnsyh",
-                    "email": "re@rvnrstnsyh.dev",
-                    "site": "https://rvnrstnsyh.dev",
+                    "block_core": {
+                        "author": "rvnrstnsyh",
+                        "email": "re@rvnrstnsyh.dev",
+                        "home": "https://rvnrstnsyh.dev",
+                    }
                 }],
                 "signature_hash": self.GENESIS['parentHash']
             },
@@ -73,7 +75,7 @@ class BlockchainConcept(object):
     def append_block(self, block):
         self.current_transactions = []
         self.chain.append(block)
-        with open('_consensus.json', 'w') as outfile:
+        with open('scripts/_consensus.json', 'w') as outfile:
             json.dump(self.chain, outfile)
         return block
 

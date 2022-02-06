@@ -1,0 +1,41 @@
+{
+    "genesis_block_sample": {
+        "_id": "0x1",
+        "block_hash": "0x000005d2b438f23a7d13f8f41572bf7c25bf01033e3b059e755b377126389d24",
+        "data": {
+            "previous_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "signature": [
+                {
+                    "_type": "GENESIS_BLOCK",
+                    "block_core": {
+                        "author": "rvnrstnsyh",
+                        "email": "re@rvnrstnsyh.dev",
+                        "home": "https://rvnrstnsyh.dev"
+                    }
+                }
+            ],
+            "signature_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "index": "0x0",
+        "nonce": "0x1ac42e",
+        "timestamp": "0x17ecfe04f35"
+    },
+
+    "config": {
+        "hostname": "localhost",
+        "port": 3000,
+        "chainId": 33,
+        "homesteadBlock": 0,
+        "eip155Block": 0,
+        "eip158Block": 0
+    },
+
+    "nonce": "0x0000000000000033",
+    "timestamp": "0x0",
+    "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "gasLimit": "0x8000000",
+    "difficulty": "0x00000",
+    "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "coinbase": "0x3333333333333333333333333333333333333333",
+    "alloc": {}
+}

@@ -1,0 +1,23 @@
+[
+    {
+        "_id": "0x1",
+        "block_hash": "0x000005d2b438f23a7d13f8f41572bf7c25bf01033e3b059e755b377126389d24",
+        "data": {
+            "previous_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "signature": [
+                {
+                    "_type": "GENESIS_BLOCK",
+                    "block_core": {
+                        "author": "rvnrstnsyh",
+                        "email": "re@rvnrstnsyh.dev",
+                        "home": "https://rvnrstnsyh.dev"
+                    }
+                }
+            ],
+            "signature_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "index": "0x0",
+        "nonce": "0x1ac42e",
+        "timestamp": "0x17ecfe04f35"
+    }
+]
