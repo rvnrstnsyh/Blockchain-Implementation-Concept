@@ -36,7 +36,7 @@ def arguments():
 
 
 def start_genesis(hostname, port):
-    for i in range(5):
+    for i in range(4):
         if platform == "linux" or platform == "linux2":
             # linux
             sp.call('clear', shell=True)
@@ -45,12 +45,12 @@ def start_genesis(hostname, port):
             sp.call('cls', shell=True)
 
         print("Reduce the difficulty if the genesis block creation or mining process takes too long,")
-        if 5-i > 1:
+        if 4-i > 1:
             print(
-                f'on http://{hostname}:{port} regenerates genesis block in {5-i} seconds')
+                f'on http://{hostname}:{port} regenerates genesis block in {3-i}s')
         else:
             print(
-                f'on http://{hostname}:{port} regenerates genesis block in {5-i} second')
+                f'on http://{hostname}:{port} Looking for the right nonce, please wait...')
         sleep(1)
 
     return True

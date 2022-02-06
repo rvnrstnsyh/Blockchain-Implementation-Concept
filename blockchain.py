@@ -31,12 +31,18 @@ class BlockchainConcept(object):
             "_id": "0x1",
             "index": "0x0",
             "data": {
-                "transaction": [],
-                "transaction_hash": self.GENESIS['parentHash']
+                "signature": [{
+                    "_type": "GENESIS_BLOCK",
+                    "author": "rvnrstnsyh",
+                    "email": "re@rvnrstnsyh.dev",
+                    "site": "https://rvnrstnsyh.dev",
+                }],
+                "signature_hash": self.GENESIS['parentHash']
             },
         }
         if start_genesis(args.hostname, args.port):
-            generate = self.proof_of_work("GENESIS_BLOCK", GENESIS_BLOCK)
+            generate = self.proof_of_work(
+                self.GENESIS['parentHash'], GENESIS_BLOCK)
             GENESIS_BLOCK['block_hash'] = generate['block_hash']
             GENESIS_BLOCK['nonce'] = generate['nonce']
             self.append_block(generate['content'])
@@ -56,12 +62,12 @@ class BlockchainConcept(object):
         content = data
         content['data']['previous_hash'] = previous_hash
         content['nonce'] = hex(nonce)
-        content['timestamp'] = time()
+        content['timestamp'] = hex(int(round(time() * 1000)))
 
         content_hash = f"0x{sha256(json.dumps(content, sort_keys=True).encode()).hexdigest()}"
 
         # ? Uncomment if you want to mine faster
-        print(f'{nonce}: {content_hash}')
+        # print(f'{nonce}: {content_hash[:len(self.GENESIS["difficulty"])]}')
         return {"content": content, "block_hash": content_hash, "status": content_hash[:len(self.difficulty)] == self.difficulty}
 
     def append_block(self, block):

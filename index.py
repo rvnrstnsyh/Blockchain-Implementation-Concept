@@ -4,6 +4,7 @@ from flask import Flask
 from flask.globals import request
 from flask.json import jsonify
 from cli import arguments
+from validblock import Test
 import secrets
 
 '''
@@ -51,7 +52,7 @@ def get_transaction():
     return jsonify(blockchain.current_transactions)
 
 
-@App.route("/mining", methods=["GET"])
+@App.route("/mine", methods=["GET"])
 def block_mining():
     if blockchain.current_transactions:
         _fee = 0.5 * len(blockchain.current_transactions)
@@ -80,6 +81,15 @@ def block_mining():
         }), 200
     else:
         return jsonify({"message": "No transactions in progress"}), 200
+
+
+@App.route('/verify-block', methods=["POST"])
+def verify_block():
+    body = request.get_json()
+    test_block = body['block']
+    unit_test = Test()
+
+    return jsonify(unit_test.valid_proof(test_block)), 200
 
 
 if __name__ == "__main__":
