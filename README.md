@@ -3,7 +3,7 @@
 A blockchain, or block chain as it was originally spelled, is an ever-expanding record, called blocks, that are linked and secured using cryptographic techniques. Each block typically contains a cryptographic hash of the previous block, a timestamp, and transaction data. [Read more](https://id.wikipedia.org/wiki/Rantai_blok)
 
 ## How to use
-To run this script you just need to install python version 3, pip, flask and requests
+To run this script you just need to install python version 3, pip, flask and requests. I myself use python version 3.10.x to make this blockchain script. I assume you have installed all the dependencies needed to run this script.
 
 after everything is installed:
 ```
@@ -18,11 +18,11 @@ You can also mark options such as hostname, port, and nonce/proof of work diffic
 Examples of valid and correct block formats include _id, block hash, data, index, nonce and timestamp. You can validate the block format in the API I have created or you can also use the 'validblock.py' file.
 
 ### GENESIS_BLOCK
-If you want to hash or store data whatever data it is, You can store in key 'data' object. Also can pass data with array type, string, integer, float, etc.
+This is an example of a genesis block. If you want to hash or store data whatever data it is, You can store in key 'data' object. Also can pass data with array type, string, integer, float, etc.
 ```json
 {
     "_id": "0x1",
-    "block_hash": "0x000005d2b438f23a7d13f8f41572bf7c25bf01033e3b059e755b377126389d24",
+    "block_hash": "0x000009fb0a6c3bb0b17d57320c4a50733d059dc2830cc2caa203fef133218f47",
     "data": {
         "previous_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
         "signature": [
@@ -38,8 +38,8 @@ If you want to hash or store data whatever data it is, You can store in key 'dat
         "signature_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
     },
     "index": "0x0",
-    "nonce": "0x1ac42e",
-    "timestamp": "0x17ecfe04f35"
+    "nonce": "0x258ff5",
+    "timestamp": "0x17ed16d9c05"
 }
 ```
 
@@ -71,6 +71,21 @@ This is an example of a block that stores simple transaction data.
 }
 ```
 Always use the block format above to validate blocks.
+
+## RESTful API
+I have created an API in such a way to access this blockchain from retrieving all blockchain data, to validating the chain by looping through the blocks one by one and matching the before and after hashes.
+
+
+| Endpoint | Function | HTTP Method |
+| ------ | ------ | ------ |
+| http://hostname:port | as root ../ | - |
+| ../ | Get all blockchain data | GET |
+| ../new-transaction | Creating new transactions/data into the chain | POST |
+| ../current-transaction | Get a list of current transactions | GET |
+| ../mine | Mining, generating hashes for block candidates, it takes between 1-3 minutes | GET |
+| ../verify-chain | Validate every block in the chain one by one | GET |
+| ../verify-block | Validate single block with previous_hash + block_data = next_hash  | POST |
+
 
 **This project is still in the concept stage.**
 
