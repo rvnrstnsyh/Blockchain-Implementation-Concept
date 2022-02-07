@@ -42,6 +42,11 @@ def MINE():
     return API.block_mine()
 
 
+@App.route('/verify-chain', methods=["GET"])
+def VERIFY_CHAIN():
+    return API.verify_chain()
+
+
 @App.route('/verify-block', methods=["POST"])
 def VERIFY_BLOCK():
     return API.verify_block()

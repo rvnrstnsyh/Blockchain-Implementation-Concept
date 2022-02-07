@@ -1,5 +1,5 @@
 from scripts.blockchain import BlockchainConcept
-from scripts.validblock import Test
+from scripts.unit_testing import Test
 from flask.globals import request
 from flask.json import jsonify
 from hashlib import sha256
@@ -69,7 +69,15 @@ class API_Controller(object):
         else:
             return jsonify({"message": "No transactions in progress"}), 200
 
-# TODO Verify block_hash with previous_hash + block_data ---
+# TODO Looping one by one and verifying each hash block in the chain ---
+    def verify_chain():
+        unit_test = Test()
+        result = unit_test.valid_chain(blockchain.chain)
+        if result['status']:
+            return jsonify(result), 200
+        return jsonify(result), 401
+
+# TODO Verify single block_hash with previous_hash + block_data ---
     def verify_block():
         body = request.get_json()
         test_block = body['block']
