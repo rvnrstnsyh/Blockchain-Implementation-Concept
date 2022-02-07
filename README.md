@@ -9,13 +9,13 @@ after everything is installed:
 ```
 ~# python3 index.py
 ```
-You can also mark options such as hostname, port, and nonce/proof of work difficulty:
+You can also give flags like hostname, port, and nonce/proof of work difficulty:
 ```
 ~# python3 index.py -h 127.0.0.1 -p 3000 -d 0x00000
 ```
 
 ## Valid block
-Examples of valid and correct block formats include _id, block hash, data, index, nonce and timestamp. You can validate the block format in the API I have created or you can also use the 'validblock.py' file.
+Examples of valid and correct block formats include _id, block hash, data, index, nonce and timestamp. You can validate the block format in the API I have created or you can also use the 'unit_testing.py' file.
 
 ### GENESIS_BLOCK
 This is an example of a genesis block. If you want to hash or store data whatever data it is, You can store in key 'data' object. Also can pass data with array type, string, integer, float, etc.
