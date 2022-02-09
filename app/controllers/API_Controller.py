@@ -1,14 +1,16 @@
 from scripts.blockchain import BlockchainConcept
 from scripts.unit_testing import Test
 from flask.globals import request
+from hashlib import sha256, md5
 from flask.json import jsonify
-from hashlib import sha256
 
-import secrets
+import json
+import sys
 
 blockchain = BlockchainConcept()
-node_identifier = f"0x{secrets.token_hex(20)}"
-
+file = open('scripts/_genesis.json')
+GENESIS = json.load(file)
+file.close()
 
 class API_Controller(object):
     def __init__(self) -> None:
@@ -21,50 +23,42 @@ class API_Controller(object):
 
 # TODO Get all current transactions ---
     def get_transaction():
-        return jsonify(blockchain.current_transactions)
+        return jsonify(blockchain.current_body_data)
 
 # TODO Create a new transaction list ---
     def new_transaction():
         body = request.get_json()
-        required_fields = ["from", "to", "amount"]
+        body['_id'] = md5(json.dumps(request.get_json(), sort_keys=True).encode()).hexdigest()
+        body['merkle_leaf'] = f'0x{sha256(json.dumps(request.get_json(), sort_keys=True).encode()).hexdigest()}'
 
-        if not all(k in body for k in required_fields):
-            return ("Missing fields", 401)
-        for i in range(len(blockchain.current_transactions)):
-            if body['from'] == blockchain.current_transactions[i]['from']:
-                return ("Your previous transaction is still pending, please wait for it to complete.", 403)
-
-        index = blockchain.add_transaction(
-            body['from'], body['to'], body['amount'], type="consumer")
-        response = {"message": f"Transaction successful. Block {hex(index)}"}
+        block_height = blockchain.add_body_data(body)
+        response = {"message": f"Transaction successful. Block {hex(block_height)}"}
         return jsonify(response), 201
 
 # TODO Start mining to register transactions into the blockchain ---
     def block_mine():
-        if blockchain.current_transactions:
-            _fee = 0.5 * len(blockchain.current_transactions)
-            blockchain.add_transaction(
-                _from=blockchain.current_transactions[0]['from'], to=node_identifier, amount=_fee, type="miner")
-
+        if blockchain.current_body_data:
             last_block = blockchain.last_block
             new_block = {
-                "_id": hex(int(last_block['_id'], 16) + 1),
-                "index": hex(int(last_block['index'], 16) + 1),
-                "data": {"transaction": blockchain.current_transactions, "transaction_hash": f"0x{sha256(f'{blockchain.current_transactions}'.encode()).hexdigest()}"},
+                "header": {
+                    "height": hex(int(last_block['header']['height'], 16) + 1)
+                },
+                "body": {
+                    "data": blockchain.current_body_data
+                }
             }
-            new_block['data']['transaction_hash'] = f"0x{sha256(f'{blockchain.current_transactions}'.encode()).hexdigest()}"
+            generate = blockchain.proof_of_work(previous_hash=last_block['header']['block_hash'], block=new_block)
 
-            generate = blockchain.proof_of_work(
-                previous_hash=last_block['block_hash'], data=new_block)
-
-            new_block['block_hash'] = generate['block_hash']
-            new_block['nonce'] = generate['nonce']
+            new_block['header']['block_hash'] = generate['block_hash']
+            new_block['header']['size'] = hex(sys.getsizeof(new_block) * len(blockchain.current_body_data))
+            new_block['header']['difficulty'] = len(GENESIS['difficulty'])
+            new_block['header']['nonce'] = generate['nonce']
 
             blockchain.append_block(generate['content'])
             return jsonify({
-                "_message": f"Hashed successfully and the block has entered the blockchain network, congratulations you are rewarded with {_fee} coins.",
-                "block_hash": last_block['block_hash'],
-                "previous_hash": last_block['data']['previous_hash']
+                "_message": f"Hashed successfully and the block has entered the blockchain network.",
+                "block_hash": last_block['header']['block_hash'],
+                "previous_hash": last_block['header']['previous_hash']
             }), 200
         else:
             return jsonify({"message": "No transactions in progress"}), 200

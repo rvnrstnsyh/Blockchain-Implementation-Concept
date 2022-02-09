@@ -21,39 +21,44 @@ class Test(object):
     def __init__(self) -> None:
         pass
 
-    def valid_proof(self, block_test):
+    def re_valid_proof(self, block_test):
         try:
             block_content = {
-                "_id": block_test['_id'],
-                "block_hash": block_test['block_hash'],
-                "data": block_test['data'],
-                "index": block_test['index'],
-                "nonce": hex(int(block_test['nonce'], 16) - 1),
-                "timestamp": block_test['timestamp']
+                "header": {
+                    "height": block_test['header']['height'],
+                    "block_hash": block_test['header']['block_hash'],
+                    "previous_hash": block_test['header']['previous_hash'],
+                    "merkle_root": block_test['header']['merkle_root'],
+                    "size": block_test['header']['size'],
+                    "nonce": hex(int(block_test['header']['nonce'], 16) - 1),
+                    "difficulty": block_test['header']['difficulty'],
+                    "time": block_test['header']['time'],
+                },
+                "body": block_test['body'],
             }
 
-            del block_content['block_hash']
+            del block_content['header']['block_hash']
             content_hash = f"0x{sha256(json.dumps(block_content, sort_keys=True).encode()).hexdigest()}"
             difficulty = self.GENESIS['difficulty']
 
             proof_of_work = content_hash[:len(difficulty)] == difficulty
-            hash_match = content_hash == block_test['block_hash']
+            hash_match = content_hash == block_test['header']['block_hash']
             final_result = proof_of_work and hash_match
 
             if final_result:
                 return {
                     "message": "Block valid and correct.",
-                    "nonce": int(block_test['nonce'], 16),
+                    "nonce": int(block_test['header']['nonce'], 16),
                     "status": final_result,
-                    "block_hash": content_hash,
-                    "previous_hash": block_test['data']['previous_hash'],
+                    "sha256(previous_hash + this_block)": content_hash,
+                    "previous_hash": block_test['header']['previous_hash'],
                 }
             return {
-                "message": f"Block does not match and is invalid, please make sure to enter the data block correctly. If possible the chain is broken at block {int(block_test['index'], 16)} with ID {int(block_test['_id'], 16)}.",
-                "nonce": int(block_test['nonce'], 16),
+                "message": f"Block does not match and is invalid, please make sure to enter the data block correctly. If possible the chain is broken at block {int(block_test['header']['height'], 16)}.",
+                "nonce": int(block_test['header']['nonce'], 16),
                 "status": final_result,
-                "block_hash": content_hash,
-                "previous_hash": block_test['data']['previous_hash'],
+                "sha256(previous_hash + this_block)": content_hash,
+                "previous_hash": block_test['header']['previous_hash'],
             }
 
         except Exception as error:
@@ -69,10 +74,10 @@ class Test(object):
 
         while current_index < len(chain):
             block = chain[current_index]
-            if block['data']['previous_hash'] != self.valid_proof(last_block)['block_hash'] and block['hash_block'][:len(self.GENESIS['difficulty'])] == self.GENESIS['difficulty']:
+            if block['header']['previous_hash'] != self.re_valid_proof(last_block)['sha256(previous_hash + this_block)'] and block['block_hash'][:len(self.GENESIS['difficulty'])] == self.GENESIS['difficulty']:
                 return {
                     "status": False,
-                    "message": f"Block does not match and is invalid. If possible the chain is broken at block {int(block['index'], 16)} with ID {int(block['_id'], 16)}."
+                    "message": f"Block does not match and is invalid. If possible the chain is broken at block {int(block['header']['height'], 16)}."
                 }
             last_block = block
             current_index += 1
@@ -83,26 +88,4 @@ class Test(object):
         }
 
     def Validate(self, block):
-        sample_block = {
-            "_id": "0x1",
-            "block_hash": "0x000009fb0a6c3bb0b17d57320c4a50733d059dc2830cc2caa203fef133218f47",
-            "data": {
-                "previous_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "signature": [
-                    {
-                        "_type": "GENESIS_BLOCK",
-                        "block_core": {
-                            "author": "rvnrstnsyh",
-                            "email": "re@rvnrstnsyh.dev",
-                            "home": "https://rvnrstnsyh.dev"
-                        }
-                    }
-                ],
-                "signature_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-            },
-            "index": "0x0",
-            "nonce": "0x258ff5",
-            "timestamp": "0x17ed16d9c05"
-        }
-
-        return self.valid_proof(block)
+        return self.re_valid_proof(block)

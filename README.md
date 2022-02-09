@@ -21,25 +21,32 @@ Examples of valid and correct block formats include _id, block hash, data, index
 This is an example of a genesis block. If you want to hash or store data whatever data it is, You can store in key 'data' object. Also can pass data with array type, string, integer, float, etc.
 ```json
 {
-    "_id": "0x1",
-    "block_hash": "0x000009fb0a6c3bb0b17d57320c4a50733d059dc2830cc2caa203fef133218f47",
-    "data": {
+    "header": {
+        "height": "0x0",
+        "size": "0xe8",
+        "merkle_root": "0x285b57d81686ccfe2b5d46f94fd7c655720e79bdb28fe399ef87fdd05d2aa8c6",
+        "difficulty": 7,
         "previous_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-        "signature": [
-            {
-                "_type": "GENESIS_BLOCK",
-                "block_core": {
-                    "author": "rvnrstnsyh",
-                    "email": "re@rvnrstnsyh.dev",
-                    "home": "https://rvnrstnsyh.dev"
-                }
-            }
-        ],
-        "signature_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        "nonce": "0x531ea",
+        "time": "2022-02-09 20:36:33.851480",
+        "block_hash": "0x00000f05122fc7f3faddfd94fe5a7ee7e4f95d9ae99b5b76991cd72b4c6c6b6c"
     },
-    "index": "0x0",
-    "nonce": "0x258ff5",
-    "timestamp": "0x17ed16d9c05"
+    "body": {
+        "data": {
+            "_id": "5ff99958d5df522a8542111293bde6f7",
+            "signature": [
+                {
+                    "_type": "GENESIS_BLOCK",
+                    "block_core": {
+                        "author": "rvnrstnsyh",
+                        "email": "re@rvnrstnsyh.dev",
+                        "home": "https://rvnrstnsyh.dev"
+                    }
+                }
+            ],
+            "merkle_leaf": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        }
+    }
 }
 ```
 
@@ -47,27 +54,33 @@ This is an example of a genesis block. If you want to hash or store data whateve
 This is an example of a block that stores simple transaction data.
 ```json
 {
-    "_id": "0x2",
-    "block_hash": "0x000002486705922055a864d39b47d5a2a3bd1c93be070c03f6740ea017f8159c",
-    "data": {
-        "previous_hash": "0x000000c7b1c96e8fd82e833ca9531903ddcf70be302f689116cfbb0c70ffebd0",
-        "transaction": [
+    "header": {
+        "height": "0x2",
+        "previous_hash": "0x000004ab099cee88821c621ba5c46db9143b16874521f519f1104c1a2dd03b5f",
+        "nonce": "0x129f5",
+        "time": "2022-02-09 20:42:09.255626",
+        "block_hash": "0x000004d2dfa77ae2151c57792c04db5eba1e2abc1339eddb3bd37552f1f7ec13",
+        "size": "0x1d0",
+        "difficulty": 7
+    },
+    "body": {
+        "data": [
             {
-                "amount": 1.0017,
                 "from": "0x4c4b18A646da4f8a3e402139b13d3EB73c43515co",
-                "to": "0x71faFcc3997c14025fdC70a1EB5a9E7b6888F64d"
+                "to": "0x71faFcc3997c14025fdC70a1EB5a9E7b6888F64d",
+                "amount": 1.0872,
+                "_id": "d6a2d23109508e295788f1132e3b8ee4",
+                "merkle_leaf": "0x2e0fcc55bff7fd24660c818398d3f7af3a5f68b844560b3058433042066ebd59"
             },
             {
-                "_fee": 0.5,
                 "from": "0x4c4b18A646da4f8a3e402139b13d3EB73c43515co",
-                "to": "0x5cc77be92190604789f08a2fc2079f84359cebff"
+                "to": "0x71faFcc3997c14025fdC70a1EB5a9E7b6888F64d",
+                "amount": 2.97,
+                "_id": "6b13055ed3e1cc24bc511e486e83eab5",
+                "merkle_leaf": "0x4146ea93ea4b2968b7fd1c7b506e68c28bdc11be78d225d7f71788378cc0df84"
             }
-        ],
-        "transaction_hash": "0x00dd65477414b7cbc9707889b818980703ba7e1bb5b9835b333a93a9ffda4b2f"
-    },
-    "index": "0x1",
-    "nonce": "0x856d",
-    "timestamp": "0x17ecff5eea4"
+        ]
+    }
 }
 ```
 Always use the block format above to validate blocks.
