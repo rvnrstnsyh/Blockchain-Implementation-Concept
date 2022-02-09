@@ -101,8 +101,8 @@ I have created an API in such a way to access this blockchain from retrieving al
 | ../new_data | Creating new datas/data into the chain | POST |
 | ../current_data | Get a list of current data | GET |
 | ../mine | Mining, generating hashes for block candidates, it takes between 1-3 minutes | GET |
-| ../verify_-_chain | Validate every block in the chain one by one | GET |
-| ../verify_-_block | Validate single block with previous_hash + block_data = next_hash  | POST |
+| ../verify_chain | Validate every block in the chain one by one | GET |
+| ../verify_block | Validate single block with previous_hash + block_data = next_hash  | POST |
 
 
 **This project has met the minimum blockchain requirements.**
