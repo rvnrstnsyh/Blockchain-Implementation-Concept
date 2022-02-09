@@ -17,7 +17,7 @@ args = arguments()
 
 
 class BlockchainConcept(object):
-    file = open('scripts/_genesis.json')
+    file = open('json/genesis.json')
     GENESIS = json.load(file)
     file.close()
 
@@ -35,6 +35,7 @@ class BlockchainConcept(object):
                 "difficulty": len(self.GENESIS['difficulty'])
             },
             "body": {
+                "number_of_data": 3,
                 "data": {
                     "_id": "5ff99958d5df522a8542111293bde6f7",
                     "signature": [{
@@ -50,18 +51,18 @@ class BlockchainConcept(object):
             },
         }
 
-        # start_genesis(args.hostname, args.port)
-        generate = self.proof_of_work(self.GENESIS['parentHash'], GENESIS_BLOCK)
+        start_genesis(hostname=args.hostname, port=args.port)
+        generate = self.proof_of_work(previous_hash=self.GENESIS['parentHash'], block=GENESIS_BLOCK)
         GENESIS_BLOCK['header']['block_hash'] = generate['block_hash']
         GENESIS_BLOCK['header']['nonce'] = generate['nonce']
-        self.append_block(generate['content'])
+        self.append_block(block=generate['content'])
 
     def proof_of_work(self, previous_hash, block):
         proof_status = False
         nonce = 0
 
         while (proof_status is False):
-            result = self.valid_proof(previous_hash, block, nonce)
+            result = self.valid_proof(previous_hash=previous_hash, block=block, nonce=nonce)
             final_hash = result['block_hash']
             proof_status = result['status']
             nonce += 1
@@ -75,14 +76,14 @@ class BlockchainConcept(object):
 
         content_hash = f"0x{sha256(json.dumps(content, sort_keys=True).encode()).hexdigest()}"
 
-        # ? Uncomment if you want to mine faster
-        # print(f'{nonce}: {content_hash[:len(self.GENESIS["difficulty"])]}')
+        # ? Uncomment this, if you want to mine faster
+        # print(f'{nonce}: {content_hash}')
         return {"content": content, "block_hash": content_hash, "status": content_hash[:len(self.difficulty)] == self.difficulty}
 
     def append_block(self, block):
         self.current_body_data = []
         self.chain.append(block)
-        with open('scripts/_consensus.json', 'w') as outfile:
+        with open('json/consensus.json', 'w') as outfile:
             json.dump(self.chain, outfile)
         return block
 

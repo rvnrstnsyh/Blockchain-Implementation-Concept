@@ -14,7 +14,7 @@ import json
 
 
 class Test(object):
-    file = open('scripts/_genesis.json')
+    file = open('json/genesis.json')
     GENESIS = json.load(file)
     file.close()
 
@@ -74,7 +74,10 @@ class Test(object):
 
         while current_index < len(chain):
             block = chain[current_index]
-            if block['header']['previous_hash'] != self.re_valid_proof(last_block)['sha256(previous_hash + this_block)'] and block['block_hash'][:len(self.GENESIS['difficulty'])] == self.GENESIS['difficulty']:
+            hash_not_match = block['header']['previous_hash'] != self.re_valid_proof(block_test=last_block)['sha256(previous_hash + this_block)']
+            nonce_not_match = block['header']['block_hash'][:len(self.GENESIS['difficulty'])] == self.GENESIS['difficulty']
+
+            if hash_not_match and nonce_not_match:
                 return {
                     "status": False,
                     "message": f"Block does not match and is invalid. If possible the chain is broken at block {int(block['header']['height'], 16)}."
@@ -88,4 +91,4 @@ class Test(object):
         }
 
     def Validate(self, block):
-        return self.re_valid_proof(block)
+        return self.re_valid_proof(block_test=block)

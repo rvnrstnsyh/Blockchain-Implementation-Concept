@@ -15,10 +15,10 @@ You can also give flags like hostname, port, and nonce/proof of work difficulty:
 ```
 
 ## Valid block
-Examples of valid and correct block formats include _id, block hash, data, index, nonce and timestamp. You can validate the block format in the API I have created or you can also use the 'unit_testing.py' file.
+Examples of valid and correct block formats include header and body. You can validate the block format in the API I have created or you can also use the 'unit_testing.py' file.
 
 ### GENESIS_BLOCK
-This is an example of a genesis block. If you want to hash or store data whatever data it is, You can store in key 'data' object. Also can pass data with array type, string, integer, float, etc.
+This is an example of a genesis block. If you want to hash or store data whatever data it is, You can store in 'body'. Also can pass data with array type, string, integer, float, etc.
 ```json
 {
     "header": {
@@ -27,11 +27,12 @@ This is an example of a genesis block. If you want to hash or store data whateve
         "merkle_root": "0x285b57d81686ccfe2b5d46f94fd7c655720e79bdb28fe399ef87fdd05d2aa8c6",
         "difficulty": 7,
         "previous_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-        "nonce": "0x531ea",
-        "time": "2022-02-09 20:36:33.851480",
-        "block_hash": "0x00000f05122fc7f3faddfd94fe5a7ee7e4f95d9ae99b5b76991cd72b4c6c6b6c"
+        "nonce": "0x196b75",
+        "time": "2022-02-10 03:11:51.954498",
+        "block_hash": "0x0000065ce41fe4705c744553a7fba40c5772fb9054447a9287a4541e3fe47351"
     },
     "body": {
+        "number_of_data": 3,
         "data": {
             "_id": "5ff99958d5df522a8542111293bde6f7",
             "signature": [
@@ -55,29 +56,33 @@ This is an example of a block that stores simple transaction data.
 ```json
 {
     "header": {
-        "height": "0x2",
-        "previous_hash": "0x000004ab099cee88821c621ba5c46db9143b16874521f519f1104c1a2dd03b5f",
-        "nonce": "0x129f5",
-        "time": "2022-02-09 20:42:09.255626",
-        "block_hash": "0x000004d2dfa77ae2151c57792c04db5eba1e2abc1339eddb3bd37552f1f7ec13",
+        "height": "0x1",
+        "merkle_root": "0x674113e591897fd0488cc72dd5564ffaccff809e661df0ba8cae00db633f16e1",
         "size": "0x1d0",
-        "difficulty": 7
+        "difficulty": 7,
+        "previous_hash": "0x0000065ce41fe4705c744553a7fba40c5772fb9054447a9287a4541e3fe47351",
+        "nonce": "0x7142",
+        "time": "2022-02-10 03:15:08.260755",
+        "block_hash": "0x00000e0954dc62f132c09a509a2eef9ca07a3c6bbfc507951f4cdccd87cb455e"
     },
     "body": {
+        "number_of_data": 2,
         "data": [
             {
-                "from": "0x4c4b18A646da4f8a3e402139b13d3EB73c43515co",
-                "to": "0x71faFcc3997c14025fdC70a1EB5a9E7b6888F64d",
-                "amount": 1.0872,
-                "_id": "d6a2d23109508e295788f1132e3b8ee4",
-                "merkle_leaf": "0x2e0fcc55bff7fd24660c818398d3f7af3a5f68b844560b3058433042066ebd59"
+                "_id": "7db42396e945064d40d51f1feb9a8096",
+                "from": "Me",
+                "to": "You",
+                "amount": 5.7,
+                "message": "haveaniceday!",
+                "merkle_leaf": "0xd835a680324d678da9aa91fd18084239a798addba74bbf4ab998f1e3bbc83207"
             },
             {
+                "_id": "2b36645a9bf35f6cfde8b9541ff21c29",
                 "from": "0x4c4b18A646da4f8a3e402139b13d3EB73c43515co",
                 "to": "0x71faFcc3997c14025fdC70a1EB5a9E7b6888F64d",
-                "amount": 2.97,
-                "_id": "6b13055ed3e1cc24bc511e486e83eab5",
-                "merkle_leaf": "0x4146ea93ea4b2968b7fd1c7b506e68c28bdc11be78d225d7f71788378cc0df84"
+                "amount": 7.2,
+                "message": "how are you today?",
+                "merkle_leaf": "0x7104ae98bf2ffa137cdf7c24c49dd101a129d1a47f5a9d60196b140e86679591"
             }
         ]
     }
@@ -93,14 +98,14 @@ I have created an API in such a way to access this blockchain from retrieving al
 | ------ | ------ | ------ |
 | http://hostname:port | as root ../ | - |
 | ../ | Get all blockchain data | GET |
-| ../new-transaction | Creating new transactions/data into the chain | POST |
-| ../current-transaction | Get a list of current transactions | GET |
+| ../new_data | Creating new datas/data into the chain | POST |
+| ../current_data | Get a list of current data | GET |
 | ../mine | Mining, generating hashes for block candidates, it takes between 1-3 minutes | GET |
-| ../verify-chain | Validate every block in the chain one by one | GET |
-| ../verify-block | Validate single block with previous_hash + block_data = next_hash  | POST |
+| ../verify_-_chain | Validate every block in the chain one by one | GET |
+| ../verify_-_block | Validate single block with previous_hash + block_data = next_hash  | POST |
 
 
-**This project is still in the concept stage.**
+**This project has met the minimum blockchain requirements.**
 
 ## License
 

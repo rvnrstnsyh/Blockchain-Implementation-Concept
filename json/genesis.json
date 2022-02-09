@@ -1,0 +1,37 @@
+{
+    "config": {
+        "hostname": "localhost",
+        "port": 3000
+    },
+    "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "difficulty": "0x00000",
+    "v1.2.0": {
+        "header": {
+            "height": "0x0",
+            "size": "0xe8",
+            "merkle_root": "0x285b57d81686ccfe2b5d46f94fd7c655720e79bdb28fe399ef87fdd05d2aa8c6",
+            "difficulty": 7,
+            "previous_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "nonce": "0x196b75",
+            "time": "2022-02-10 03:11:51.954498",
+            "block_hash": "0x0000065ce41fe4705c744553a7fba40c5772fb9054447a9287a4541e3fe47351"
+        },
+        "body": {
+            "number_of_data": 3,
+            "data": {
+                "_id": "5ff99958d5df522a8542111293bde6f7",
+                "signature": [
+                    {
+                        "_type": "GENESIS_BLOCK",
+                        "block_core": {
+                            "author": "rvnrstnsyh",
+                            "email": "re@rvnrstnsyh.dev",
+                            "home": "https://rvnrstnsyh.dev"
+                        }
+                    }
+                ],
+                "merkle_leaf": "0x0000000000000000000000000000000000000000000000000000000000000000"
+            }
+        }
+    }
+}
